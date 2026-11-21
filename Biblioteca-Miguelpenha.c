@@ -123,8 +123,8 @@ void cadastrarusuario(Listausuario *lista) {
 
 
 int main(){
-     ListaLivro livros;
-    ListaUsuario usuarios;
+     Listalivro livros;
+    Listausuario usuarios;
     int op;
 
     iniciarllivro(&livros);
