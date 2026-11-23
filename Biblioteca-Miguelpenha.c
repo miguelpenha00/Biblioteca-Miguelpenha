@@ -1,4 +1,11 @@
 
+
+    
+    
+    
+    
+    
+    
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -35,12 +42,12 @@ typedef struct {
     int codigol;
 } Listalivro;
 
-void iniciarlusuario(Listausuario *lista) {
+void iniciarlistausuario(Listausuario *lista) {
     lista->sent = (Usuario*) malloc(sizeof(Usuario));
     lista->sent->next = lista->sent;
 }
 
-void iniciarllivro(Listalivro *lista) {
+void iniciarlistaLivro(Listalivro *lista) {
     lista->sent = (Livro*) malloc(sizeof(Livro));
     lista->sent->next = lista->sent;
     lista->codigol=1
@@ -118,19 +125,47 @@ void cadastrarusuario(Listausuario *lista) {
 
     printf("Usuario cadastrado\n");
 }
+void cadastro(Listalivro *livros, Listausuario *usuarios){
+    int op;
+    while(op!=0){
+         printf("---CADASTRO---\n 1-Livros\n 2-Usuarios\n 0-Sair\n");
+        scanf("%d", &op);
+        if (op == 1) cadastrarLivro(livros);
+        else if (op == 2) cadastrarUsuario(usuarios);
+    }
+}
+//comecar o consulta
+void infolivro(Livro *l) {
+printf("ID: %d", l->id);
+printf("  Titulo: %s", l->titulo);
+printf("  Autor: %s", l->autor);
+printf("  Ano: %d", l->ano);
+if (l->status == 0) {
+    printf("Status: Disponivel");
+} else {
+    printf("Status: Emprestado");
+}
+}
+
 
 
 
 
 int main(){
-     Listalivro livros;
+    Listalivro livros;
     Listausuario usuarios;
     int op;
 
     iniciarllivro(&livros);
     iniciarlusuario(&usuarios);
-    scanf("%d",&op) 
-    
+    while(op!=0){
+         printf("---BIBLIOTECA---\n");
+        printf("1-Cadastro\n 2-Consulta\n 3-Atualizacao\n 4-Exclusao\n");
+        printf("5-Emprestimo\n 6-Devolucao\n 0-Sair");
+        scanf("%d", &op);
+        if(op==1){cadastro(&livros, &usuarios)}
+        if(op==2{consulta(&livros, &usuarios)})
+    }
     
     
     
@@ -141,3 +176,5 @@ int main(){
     
     return 0;
 }
+    
+    
