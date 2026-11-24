@@ -1,17 +1,11 @@
 
-
-    
-    
-    
-    
-    
-    
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 //Referencias:
 //Atividades realizadas em sala e exercicios propostos pra casa.
 //Trabalho final de algoritimos(python)
+//codigo revisado por LLM
 
 #define MAX 100
 
@@ -130,8 +124,8 @@ void cadastro(Listalivro *livros, Listausuario *usuarios){
     while(op!=0){
          printf("---CADASTRO---\n 1-Livros\n 2-Usuarios\n 0-Sair\n");
         scanf("%d", &op);
-        if (op == 1) cadastrarLivro(livros);
-        else if (op == 2) cadastrarUsuario(usuarios);
+        if (op == 1) cadastrarivro(livros);
+        else if (op == 2) cadastrarusuario(usuarios);
     }
 }
 //comecar o consulta
@@ -145,6 +139,35 @@ if (l->status == 0) {
 } else {
     printf("Status: Emprestado");
 }
+}
+void consultarlivros(Listalivro *lista) {
+    int op;
+    printf("1-Por codigo\n2-Por autor\n");
+    scanf("%d", &op);
+
+    if (op == 1) {
+        int id;
+        printf("Codigo: ");
+        scanf("%d", &id);
+        Livro *aux = buscarlivro(lista, id);
+        if (aux == NULL) printf("Livro nao encontrado\n");
+        else infolivro(aux);
+    } else if (op == 2) {
+        char autor[MAX];
+        int achou = 0;
+        printf("Autor: ");
+        scanf("%99s", autor);
+        Livro *aux = lista->sent->next;
+        while (aux != lista->sent) {
+            if (strcmp(aux->autor, autor) == 0) {
+                infolivro(aux);
+                achou = 1;
+            }
+            aux = aux->next;
+        }
+        if (achou!=1)
+        {printf("Livro nao encontrado\n");}
+    }
 }
 
 
