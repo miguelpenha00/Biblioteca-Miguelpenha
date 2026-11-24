@@ -169,7 +169,34 @@ void consultarlivros(Listalivro *lista) {
         {printf("Livro nao encontrado\n");}
     }
 }
+void consultarusuarios(Listausuario *lista) {
+    int op;
+    printf("1-Por email\n2-Por nome\n");
+    scanf("%d", &op);
 
+    if (op == 1) {
+        char email[MAX];
+        printf("Email: ");
+        scanf("%99s", email);
+        Usuario *aux = buscarusuario(lista, email);
+        if (aux == NULL){ printf("Usuario nao cadastrado\n");}
+        else printf("Nome: %s  Email: %s\n", aux->nome, aux->email);
+    } else if (op == 2) {
+        char nome[MAX];
+        int achou = 0;
+        printf("Nome: ");
+        scanf("%99s", nome);
+        Usuario *aux = lista->sent->next;
+        while (aux != lista->sent) {
+            if (strcmp(aux->nome, nome) == 0) {
+                printf("Nome: %s  Email: %s\n", aux->nome, aux->email);
+                achou = 1;
+            }
+            aux = aux->next;
+        }
+        if (achou!=0){printf("Usuario nao cadastrado\n");} 
+    }
+}
 
 
 
