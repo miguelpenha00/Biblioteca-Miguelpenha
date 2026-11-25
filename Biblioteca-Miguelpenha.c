@@ -274,6 +274,20 @@ void atualizarlivro(Listalivro *lista) {
     scanf("%d", &aux->ano);
     printf("Livro atualizado\n");
 }
+void atualizarusuario(Listausuario *lista) {
+    char email[MAX];
+    printf("Email do usuario: ");
+    scanf("%99s", email);
+    Usuario *aux = buscarusuario(lista, email);
+    if (aux == NULL) {
+        printf("Usuario nao cadastrado\n");
+        return;
+    }
+    printf("Novo nome: ");
+    scanf("%99s", aux->nome);
+    printf("Usuario atualizado\n");
+}
+
 
 
 
