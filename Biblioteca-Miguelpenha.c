@@ -128,7 +128,7 @@ void cadastro(Listalivro *livros, Listausuario *usuarios){
         else if (op == 2) cadastrarusuario(usuarios);
     }
 }
-//comecar o consulta
+
 void infolivro(Livro *l) {
 printf("ID: %d", l->id);
 printf("  Titulo: %s", l->titulo);
@@ -138,7 +138,7 @@ if (l->status == 0) {
     printf("Status: Disponivel");
 } else {
     printf("Status: Emprestado");
-}
+    }
 }
 void consultarlivros(Listalivro *lista) {
     int op;
@@ -150,7 +150,9 @@ void consultarlivros(Listalivro *lista) {
         printf("Codigo: ");
         scanf("%d", &id);
         Livro *aux = buscarlivro(lista, id);
-        if (aux == NULL) printf("Livro nao encontrado\n");
+        if (aux == NULL){
+            printf("Livro nao encontrado\n");
+        }
         else infolivro(aux);
     } else if (op == 2) {
         char autor[MAX];
@@ -197,7 +199,48 @@ void consultarusuarios(Listausuario *lista) {
         if (achou!=0){printf("Usuario nao cadastrado\n");} 
     }
 }
+void consultaremprestimos(Listalivro *livros,Listausuario *usuarios) {
+    char email[MAX];
+    int achou = 0;
+    printf("Email do usuario: ");
+    scanf("%99s", email);
+    if (buscarusuario(usuarios, email) == NULL) {
+        printf("Usuario nao cadastrado!\n");
+        return;
+    }
+    Livro *aux = livros->sent->next;
+    while (aux != livros->sent) {
+        if (aux->status == 1 && strcmp(aux->emailUsuario, email) == 0) {
+            infolivro(aux);
+            achou = 1;
+        }
+        aux = aux->next;
+    }
+    if (achou == 0) {
+        printf("Usuario nao possui emprestimos\n");
+    }
+}
+void consulta(Listalivro *livros, Listausuario *usuarios) {
+    int op;
+    while(op!=0){
+        printf("--- CONSULTA ---\n");
+        printf("1 - Livros\n");
+        printf("2 - Usuarios\n");
+        printf("3 - Emprestimos\n");
+        printf("0 - Voltar\n");
+        scanf("%d", &op);
+        if (op == 1) {
+            consultarlivros(livros);
+        }
+        if (op == 2) {
+            consultarusuarios(usuarios);
+        }
+        if (op == 3) {
+            consultaremprestimos(livros, usuarios);
+        }
 
+}
+//fazer atualizacoes
 
 
 
@@ -209,22 +252,40 @@ int main(){
     iniciarllivro(&livros);
     iniciarlusuario(&usuarios);
     while(op!=0){
-         printf("---BIBLIOTECA---\n");
-        printf("1-Cadastro\n 2-Consulta\n 3-Atualizacao\n 4-Exclusao\n");
-        printf("5-Emprestimo\n 6-Devolucao\n 0-Sair");
+       printf("---BIBLIOTECA---\n");
+        printf("1 - Cadastro\n");
+        printf("2 - Consulta\n");
+        printf("3 - Atualizacao\n");
+        printf("4 - Exclusao\n");
+        printf("5 - Emprestimo\n");
+        printf("6 - Devolucao\n");
+        printf("0 - Sair\n");
         scanf("%d", &op);
-        if(op==1){cadastro(&livros, &usuarios)}
-        if(op==2{consulta(&livros, &usuarios)})
-    }
+        if (op == 1) {
+            cadastro(&livros, &usuarios);
+        }
+        if (op == 2) {
+            consulta(&livros, &usuarios);
+        }
+        if (op == 3) {
+            atualizacao(&livros, &usuarios);
+        }
+        if (op == 4) {
+            exclusao(&livros, &usuarios);
+        }
+        if (op == 5) {
+            emprestimo(&livros, &usuarios);
+        }
+        if (op == 6) {
+            devolucao(&livros);
+        }
+        if (op == 0) {
+            printf("Encerrando programa...\n");
+        }
+    } 
+
     
-    
-    
-    
-    
-    
-    
+    //liberar memoriaaaaaaaaaaaaaaaaaaaaaa
     
     return 0;
 }
-    
-    
