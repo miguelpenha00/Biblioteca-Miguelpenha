@@ -241,6 +241,22 @@ void consulta(Listalivro *livros, Listausuario *usuarios) {
 
 }
 //fazer atualizacoes
+void atualizacao(Listalivro *livros, Listausuario *usuarios) {
+    int op;
+    while(op!=0){
+        printf("---ATUALIZACAO ---");
+        printf("1 - Livros\n");
+        printf("2 - Usuarios\n");
+        printf("0 - Voltar\n");
+        scanf("%d", &op);
+        if (op == 1) {
+            atualizarlivro(livros);
+        }
+        if (op == 2) {
+            atualizarusuario(usuarios);
+        }
+    } 
+}
 
 
 
