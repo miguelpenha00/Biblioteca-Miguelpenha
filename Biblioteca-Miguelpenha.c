@@ -1,4 +1,4 @@
-
+1
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -287,6 +287,29 @@ void atualizarusuario(Listausuario *lista) {
     scanf("%99s", aux->nome);
     printf("Usuario atualizado\n");
 }
+void excluirlivro(Listalivro *lista) {
+    int id;
+    printf("ID do livro: ");
+    scanf("%d", &id);
+    Livro *prev = lista->sent;
+    Livro *aux = lista->sent->next;
+    while (aux != lista->sent && aux->id != id) {
+        prev = aux;
+        aux = aux->next;
+    }
+    if (aux == lista->sent) {
+        printf("Livro nao encontrado!\n");
+        return;
+    }
+    if (aux->status == 1) {
+        printf("O livro esta emprestado\n");
+        return;
+    }
+    prev->next = aux->next;
+    free(aux);
+    printf("Livro excluido\n");
+}  
+// fazer exclusao de usuario e o menu de exclusao
 
 
 
