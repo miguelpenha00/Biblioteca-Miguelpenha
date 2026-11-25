@@ -257,6 +257,23 @@ void atualizacao(Listalivro *livros, Listausuario *usuarios) {
         }
     } 
 }
+void atualizarlivro(Listalivro *lista) {
+    int id;
+    printf("ID do livro: ");
+    scanf("%d", &id);
+    Livro *aux = buscarlivro(lista, id);
+    if (aux == NULL) {
+        printf("Livro nao encontrado!\n");
+        return;
+    }
+    printf("Novo titulo: ");
+    scanf("%99s", aux->titulo);
+    printf("Novo autor: ");
+    scanf("%99s", aux->autor);
+    printf("Novo ano: ");
+    scanf("%d", &aux->ano);
+    printf("Livro atualizado\n");
+}
 
 
 
