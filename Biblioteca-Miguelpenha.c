@@ -327,6 +327,7 @@ void exclusao(Listalivro *livros, Listausuario *usuarios) {
 }
 
 // exclusao usuario
+
 void emprestimo(Listalivro *livros, Listausuario *usuarios) {
     int id;
     char email[MAX];
