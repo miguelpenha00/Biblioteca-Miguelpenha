@@ -326,7 +326,7 @@ void exclusao(Listalivro *livros, Listausuario *usuarios) {
         }
 }
 
-// exclusao usuario
+// exclusao usuario lembraaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
 
 void emprestimo(Listalivro *livros, Listausuario *usuarios) {
     int id;
@@ -354,7 +354,24 @@ void emprestimo(Listalivro *livros, Listausuario *usuarios) {
 }
 
 
-//devolucao
+void devolucao(Listalivro *lista) {
+    int id;
+    printf("ID do livro: ");
+    scanf("%d", &id);
+    Livro *aux = buscarlivro(lista, id);
+    if (aux == NULL) {
+        printf("Livro nao encontrado\n");
+        return;
+    }
+    if (aux->status == 0) {
+        printf("Livro nao estava emprestado\n");
+        return;
+    }
+    aux->status = 0;
+    strcpy(aux->emailusuario, "");
+    printf("Devolucao realizada com sucesso\n");
+}
+
 
 void liberarlistalivro(Listalivro *lista) {
     Livro *aux = lista->sent->next;
