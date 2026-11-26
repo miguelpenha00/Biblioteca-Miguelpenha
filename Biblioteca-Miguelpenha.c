@@ -354,7 +354,29 @@ void emprestimo(Listalivro *livros, Listausuario *usuarios) {
 
 //devolucao
 
-//liberaçao de memoria
+void liberarlistalivro(Listalivro *lista) {
+    Livro *aux = lista->sent->next;
+    Livro *temp;
+    while (aux != lista->sent) {
+        temp = aux;
+        aux = aux->next;
+        free(temp);
+    }
+    free(lista->sent);
+}
+
+void liberarlistausuario(Listausuario *lista) {
+    Usuario *aux = lista->sent->next;
+    Usuario *temp;
+    while (aux != lista->sent) {
+        temp = aux;
+        aux = aux->next;
+        free(temp);
+    }
+    free(lista->sent);
+}
+
+
 int main(){//ORGANIZAR AS FUNÇOES
     Listalivro livros;
     Listausuario usuarios;
@@ -395,8 +417,9 @@ int main(){//ORGANIZAR AS FUNÇOES
         }
     } 
 
-    
-    //liberar memoriaaaaaaaaaaaaaaaaaaaaaa
+    liberarlistalivro(&livros);
+    liberarlistausuario(&usuarios);
+    printf("Memoria liberada\n");
     
     return 0;
 }
