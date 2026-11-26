@@ -322,12 +322,33 @@ void exclusao(Listalivro *livros, Listausuario *usuarios) {
             excluirlivro(livros);
         }
         if (op == 2) {
-            excluirusuario(usuarios, livros);
+            excluirusuario(usuarios);
         }
 }
-
-// exclusao usuario lembraaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-
+Usuario *excluirusuario(Usuario *usuarios) {
+    char email[MAX];
+    printf("Email do usuario: ");
+    scanf("%99s", email);
+    Usuario *aux = usuarios;
+    Usuario *prev = NULL;
+    while (aux != NULL && strcmp(aux->email, email) != 0) {
+        prev= aux;
+        aux = aux->next;
+    }
+    if (aux == NULL) {
+        printf("Usuario nao cadastrado\n");
+        return usuarios;
+    }
+    if (prev == NULL) {
+        usuarios = aux->next;
+    }
+    else {
+        prev->next = aux->next;
+    }
+    free(aux);
+    printf("Usuario excluido\n");
+    return usuarios;
+}
 void emprestimo(Listalivro *livros, Listausuario *usuarios) {
     int id;
     char email[MAX];
