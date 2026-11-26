@@ -20,7 +20,7 @@ typedef struct livro {
     char autor[MAX];
     int ano;
     int id;
-    int status=0;
+    int status;
     char emailUsuario[MAX];
     struct livro *next;
 } Livro;
@@ -35,6 +35,12 @@ typedef struct {
     int codigol;
 } Listalivro;
 
+void atualizarlivro(Listalivro *lista);
+void atualizarusuario(Listausuario *lista);
+void excluirlivro(Listalivro *lista);
+void excluirusuario(Listausuario *lista);
+void cadastrarlivro(Listalivro *lista);
+
 void iniciarlistausuario(Listausuario *lista) {
     lista->sent = (Usuario*) malloc(sizeof(Usuario));
     lista->sent->next = lista->sent;
@@ -43,13 +49,13 @@ void iniciarlistausuario(Listausuario *lista) {
 void iniciarlistaLivro(Listalivro *lista) {
     lista->sent = (Livro*) malloc(sizeof(Livro));
     lista->sent->next = lista->sent;
-    lista->codigol=1
+    lista->codigol=1;
 }
 
 Livro* buscarlivro(Listalivro *lista, int codigo) {
     Livro *aux = lista->sent->next;       
     while (aux != lista->sent) {          
-        if (aux->codigo == codigo) {
+        if (aux->id == codigo) {
             return aux;
         }
         aux = aux->next;
@@ -96,6 +102,9 @@ void cadastrarlivro(Listalivro *lista) {
         prev = aux;
         aux = aux->next;
     }
+    new->next = aux;
+    prev->next = new;
+    printf("Livro cadastrado\n");
 }
 void cadastrarusuario(Listausuario *lista) {
     char email[MAX];
@@ -119,11 +128,14 @@ void cadastrarusuario(Listausuario *lista) {
     printf("Usuario cadastrado\n");
 }
 void cadastro(Listalivro *livros, Listausuario *usuarios){
-    int op;
-    while(op!=0){
+    int op = -1;
+    while(1){
          printf("---CADASTRO---\n 1-Livros\n 2-Usuarios\n 0-Sair\n");
         scanf("%d", &op);
-        if (op == 1) cadastrarivro(livros);
+        if (op == 0) {
+            break;
+        }
+        if (op == 1) cadastrarlivro(livros);
         else if (op == 2) cadastrarusuario(usuarios);
     }
 }
@@ -220,14 +232,17 @@ void consultaremprestimos(Listalivro *livros,Listausuario *usuarios) {
     }
 }
 void consulta(Listalivro *livros, Listausuario *usuarios) {
-    int op;
-    while(op!=0){
+    int op = -1;
+    while(1){
         printf("--- CONSULTA ---\n");
         printf("1 - Livros\n");
         printf("2 - Usuarios\n");
         printf("3 - Emprestimos\n");
         printf("0 - Voltar\n");
         scanf("%d", &op);
+        if (op == 0) {
+            break;
+        }
         if (op == 1) {
             consultarlivros(livros);
         }
@@ -237,18 +252,21 @@ void consulta(Listalivro *livros, Listausuario *usuarios) {
         if (op == 3) {
             consultaremprestimos(livros, usuarios);
         }
-
+    }
 }
 //fazer atualizacoes
 
 void atualizacao(Listalivro *livros, Listausuario *usuarios) {
-    int op;
-    while(op!=0){
+    int op = -1;
+    while(1){
         printf("---ATUALIZACAO ---");
         printf("1 - Livros\n");
         printf("2 - Usuarios\n");
         printf("0 - Voltar\n");
         scanf("%d", &op);
+        if (op == 0) {
+            break;
+        }
         if (op == 1) {
             atualizarlivro(livros);
         }
@@ -312,42 +330,40 @@ void excluirlivro(Listalivro *lista) {
 
 void exclusao(Listalivro *livros, Listausuario *usuarios) {
     int op;
-    while (op != 0);{
+    while (1) {
         printf("\n--- EXCLUSAO ---\n");
         printf("1 - Livros\n");
         printf("2 - Usuarios\n");
         printf("0 - Voltar\n");
         scanf("%d", &op);
+        if (op == 0) {
+            break;
+        }
         if (op == 1) {
             excluirlivro(livros);
         }
         if (op == 2) {
             excluirusuario(usuarios);
         }
+    }
 }
-Usuario *excluirusuario(Usuario *usuarios) {
+void excluirusuario(Listausuario *lista) {
     char email[MAX];
     printf("Email do usuario: ");
     scanf("%99s", email);
-    Usuario *aux = usuarios;
-    Usuario *prev = NULL;
-    while (aux != NULL && strcmp(aux->email, email) != 0) {
-        prev= aux;
+    Usuario *prev = lista->sent;
+    Usuario *aux = lista->sent->next;
+    while (aux != lista->sent && strcmp(aux->email, email) != 0) {
+        prev = aux;
         aux = aux->next;
     }
-    if (aux == NULL) {
+    if (aux == lista->sent) {
         printf("Usuario nao cadastrado\n");
-        return usuarios;
+        return;
     }
-    if (prev == NULL) {
-        usuarios = aux->next;
-    }
-    else {
-        prev->next = aux->next;
-    }
+    prev->next = aux->next;
     free(aux);
     printf("Usuario excluido\n");
-    return usuarios;
 }
 void emprestimo(Listalivro *livros, Listausuario *usuarios) {
     int id;
@@ -370,7 +386,7 @@ void emprestimo(Listalivro *livros, Listausuario *usuarios) {
         return;
     }
     aux->status = 1;
-    strcpy(aux->emailusuario, email);
+    strcpy(aux->emailUsuario, email);
     printf("Emprestimo realizado\n");
 }
 
@@ -389,7 +405,7 @@ void devolucao(Listalivro *lista) {
         return;
     }
     aux->status = 0;
-    strcpy(aux->emailusuario, "");
+    strcpy(aux->emailUsuario, "");
     printf("Devolucao realizada com sucesso\n");
 }
 
@@ -422,9 +438,9 @@ int main(){//ORGANIZAR AS FUNÇOES
     Listausuario usuarios;
     int op;
 
-    iniciarllivro(&livros);
-    iniciarlusuario(&usuarios);
-    while(op!=0){
+    iniciarlistaLivro(&livros);
+    iniciarlistausuario(&usuarios);
+    while(1){
        printf("---BIBLIOTECA---\n");
         printf("1 - Cadastro\n");
         printf("2 - Consulta\n");
@@ -454,6 +470,7 @@ int main(){//ORGANIZAR AS FUNÇOES
         }
         if (op == 0) {
             printf("Encerrando programa...\n");
+            break;
         }
     } 
 
