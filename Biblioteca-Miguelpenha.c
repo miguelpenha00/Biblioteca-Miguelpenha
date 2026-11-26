@@ -1,4 +1,3 @@
-1
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -26,7 +25,7 @@ typedef struct livro {
     struct livro *next;
 } Livro;
 
-// LISTAS
+
 typedef struct {
     Usuario *sent;
 } Listausuario;
@@ -67,7 +66,7 @@ Usuario* buscarusuario(Listausuario *lista, char *email) {
     }
     return NULL;
 }
-//fazer a cadastrar usuario 
+
 void cadastrarlivro(Listalivro *lista) {
     int id;
 
@@ -309,9 +308,24 @@ void excluirlivro(Listalivro *lista) {
     free(aux);
     printf("Livro excluido\n");
 }  
-// fazer exclusao de usuario e o menu de exclusao
 
+void exclusao(Listalivro *livros, Listausuario *usuarios) {
+    int op;
+    while (op != 0);{
+        printf("\n--- EXCLUSAO ---\n");
+        printf("1 - Livros\n");
+        printf("2 - Usuarios\n");
+        printf("0 - Voltar\n");
+        scanf("%d", &op);
+        if (op == 1) {
+            excluirlivro(livros);
+        }
+        if (op == 2) {
+            excluirusuario(usuarios, livros);
+        }
+}
 
+//fazer excluir usuario e verificar se o usario tem emprestimo
 
 
 int main(){
