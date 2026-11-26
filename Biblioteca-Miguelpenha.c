@@ -325,10 +325,37 @@ void exclusao(Listalivro *livros, Listausuario *usuarios) {
         }
 }
 
-//fazer excluir usuario e verificar se o usario tem emprestimo
+// exclusao usuario
+void emprestimo(Listalivro *livros, Listausuario *usuarios) {
+    int id;
+    char email[MAX];
+    printf("ID do livro: ");
+    scanf("%d", &id);
+    Livro *aux = buscarlivro(livros, id);
+    if (aux == NULL) {
+        printf("Livro nao encontrado\n");
+        return;
+    }
+    if (aux->status == 1) {
+        printf("Livro ja esta emprestado\n");
+        return;
+    }
+    printf("Email do usuario: ");
+    scanf("%99s", email);
+    if (buscarusuario(usuarios, email) == NULL) {
+        printf("Usuario nao cadastrado!\n");
+        return;
+    }
+    aux->status = 1;
+    strcpy(aux->emailusuario, email);
+    printf("Emprestimo realizado\n");
+}
 
 
-int main(){
+//devolucao
+
+//liberaçao de memoria
+int main(){//ORGANIZAR AS FUNÇOES
     Listalivro livros;
     Listausuario usuarios;
     int op;
