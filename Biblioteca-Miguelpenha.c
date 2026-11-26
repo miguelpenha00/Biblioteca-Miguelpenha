@@ -240,6 +240,7 @@ void consulta(Listalivro *livros, Listausuario *usuarios) {
 
 }
 //fazer atualizacoes
+
 void atualizacao(Listalivro *livros, Listausuario *usuarios) {
     int op;
     while(op!=0){
