@@ -1,20 +1,20 @@
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 //Referencias:
 //Atividades realizadas em sala e exercicios propostos pra casa.
 //Trabalho final de algoritimos(python)
-//codigo revisado por LLM
+//codigo revisado por LLM(correção de erros de sintaxe e melhorias logicas)
+//
 
 #define MAX 100
-
+//estrutura do usuario
 typedef struct usuario {
     char email[MAX];
     char nome[MAX];
     struct usuario *next;
 } Usuario;
-
+//estrutura do livro
 typedef struct livro {
     char titulo[MAX];
     char autor[MAX];
@@ -24,27 +24,27 @@ typedef struct livro {
     char emailUsuario[MAX];
     struct livro *next;
 } Livro;
-
+//sentinela lista de usuario
 typedef struct {
     Usuario *sent;
 } Listausuario;
-
+//sentinela lista de livros
 typedef struct {
     Livro *sent;
     int codigol;
 } Listalivro;
-
+// inicializacao da lista de usuarios
 void iniciarlistausuario(Listausuario *lista) {
     lista->sent = (Usuario*) malloc(sizeof(Usuario));
     lista->sent->next = lista->sent;
 }
-
+// iniciacao da lista de livros
 void iniciarlistaLivro(Listalivro *lista) {
     lista->sent = (Livro*) malloc(sizeof(Livro));
     lista->sent->next = lista->sent;
     lista->codigol = 1;
 }
-
+//busca livro
 Livro* buscarlivro(Listalivro *lista, int codigo) {
     Livro *aux = lista->sent->next;
     while (aux != lista->sent) {
@@ -55,7 +55,7 @@ Livro* buscarlivro(Listalivro *lista, int codigo) {
     }
     return NULL;
 }
-
+//busca usuario
 Usuario* buscarusuario(Listausuario *lista, char *email) {
     Usuario *aux = lista->sent->next;
     while (aux != lista->sent) {
@@ -66,22 +66,18 @@ Usuario* buscarusuario(Listausuario *lista, char *email) {
     }
     return NULL;
 }
-
+// cadastro de livro
 void cadastrarlivro(Listalivro *lista) {
     int id;
-    printf("Codigo (ID): ");
-    scanf("%d", &id);
-    if (buscarlivro(lista, id) != NULL) {
-        printf("Codigo ja cadastrado!\n");
-        return;
-    }
+    id = lista->codigol;
+    lista->codigol++;
     Livro *novo = (Livro*) malloc(sizeof(Livro));
     novo->id = id;
-    printf("Titulo: ");
+    printf("Titulo:\n");
     scanf("%99s", novo->titulo);
-    printf("Autor: ");
+    printf("Autor:\n");
     scanf("%99s", novo->autor);
-    printf("Ano de publicacao: ");
+    printf("Ano de publicacao:\n");
     scanf("%d", &novo->ano);
     novo->status = 0;
     strcpy(novo->emailUsuario, "");
@@ -95,10 +91,10 @@ void cadastrarlivro(Listalivro *lista) {
     prev->next = novo;
     printf("Livro cadastrado\n");
 }
-
+// cadastro de usuario
 void cadastrarusuario(Listausuario *lista) {
     char email[MAX];
-    printf("Email: ");
+    printf("Email:\n");
     scanf("%99s", email);
     if (buscarusuario(lista, email) != NULL) {
         printf("Email ja cadastrado\n");
@@ -106,13 +102,13 @@ void cadastrarusuario(Listausuario *lista) {
     }
     Usuario *novo = (Usuario*) malloc(sizeof(Usuario));
     strcpy(novo->email, email);
-    printf("Nome: ");
+    printf("Nome:\n");
     scanf("%99s", novo->nome);
     novo->next = lista->sent->next;
     lista->sent->next = novo;
     printf("Usuario cadastrado\n");
 }
-
+// menu cadastro
 void cadastro(Listalivro *livros, Listausuario *usuarios) {
     int op;
     while (1) {
@@ -131,7 +127,7 @@ void cadastro(Listalivro *livros, Listausuario *usuarios) {
         }
     }
 }
-
+// informacoes do livro
 void infolivro(Livro *l) {
     printf("ID: %d\n", l->id);
     printf("Titulo: %s\n", l->titulo);
@@ -143,7 +139,7 @@ void infolivro(Livro *l) {
         printf("Status: Emprestado\n");
     }
 }
-
+//consulta de livro
 void consultarlivros(Listalivro *lista) {
     int op;
     printf("1-Por codigo\n");
@@ -178,7 +174,7 @@ void consultarlivros(Listalivro *lista) {
         }
     }
 }
-
+//consulta usuario
 void consultarusuarios(Listausuario *lista) {
     int op;
     printf("1-Por email\n");
@@ -186,7 +182,7 @@ void consultarusuarios(Listausuario *lista) {
     scanf("%d", &op);
     if (op == 1) {
         char email[MAX];
-        printf("Email: ");
+        printf("Email:\n");
         scanf("%99s", email);
         Usuario *aux = buscarusuario(lista, email);
 
@@ -199,7 +195,7 @@ void consultarusuarios(Listausuario *lista) {
     } else if (op == 2) {
         char nome[MAX];
         int achou = 0;
-        printf("Nome: ");
+        printf("Nome:\n");
         scanf("%99s", nome);
         Usuario *aux = lista->sent->next;
         while (aux != lista->sent) {
@@ -214,7 +210,7 @@ void consultarusuarios(Listausuario *lista) {
         }
     }
 }
-
+//consulta emprestimo
 void consultaremprestimos(Listalivro *livros, Listausuario *usuarios) {
     char email[MAX];
     int achou = 0;
@@ -238,7 +234,7 @@ void consultaremprestimos(Listalivro *livros, Listausuario *usuarios) {
         printf("Usuario nao possui emprestimos\n");
     }
 }
-
+//menu consulta
 void consulta(Listalivro *livros, Listausuario *usuarios) {
     int op;
     while (1) {
@@ -262,7 +258,7 @@ void consulta(Listalivro *livros, Listausuario *usuarios) {
         }
     }
 }
-
+//atualizacao de livros
 void atualizarlivro(Listalivro *lista) {
     int id;
     printf("ID do livro: ");
@@ -272,30 +268,30 @@ void atualizarlivro(Listalivro *lista) {
         printf("Livro nao encontrado!\n");
         return;
     }
-    printf("Novo titulo: ");
+    printf("Novo titulo:\n");
     scanf("%99s", aux->titulo);
-    printf("Novo autor: ");
+    printf("Novo autor:\n");
     scanf("%99s", aux->autor);
-    printf("Novo ano: ");
+    printf("Novo ano:\n");
     scanf("%d", &aux->ano);
     printf("Livro atualizado\n");
 }
-
+//atualizacao de usuarios
 void atualizarusuario(Listausuario *lista) {
     char email[MAX];
-    printf("Email do usuario: ");
+    printf("Email do usuario:\n");
     scanf("%99s", email);
     Usuario *aux = buscarusuario(lista, email);
     if (aux == NULL) {
         printf("Usuario nao cadastrado\n");
         return;
     }
-    printf("Novo nome: ");
+    printf("Novo nome:\n");
     scanf("%99s", aux->nome);
 
     printf("Usuario atualizado\n");
 }
-
+//atualizacao menu
 void atualizacao(Listalivro *livros, Listausuario *usuarios) {
     int op;
     while (1) {
@@ -315,10 +311,10 @@ void atualizacao(Listalivro *livros, Listausuario *usuarios) {
         }
     }
 }
-
+//exclusao de livro
 void excluirlivro(Listalivro *lista) {
     int id;
-    printf("ID do livro: ");
+    printf("ID do livro:\n");
     scanf("%d", &id);
     Livro *prev = lista->sent;
     Livro *aux = lista->sent->next;
@@ -338,10 +334,10 @@ void excluirlivro(Listalivro *lista) {
     free(aux);
     printf("Livro excluido\n");
 }
-
+//exclusao de usuario
 void excluirusuario(Listausuario *lista) {
     char email[MAX];
-    printf("Email do usuario: ");
+    printf("Email do usuario:\n");
     scanf("%99s", email);
     Usuario *prev = lista->sent;
     Usuario *aux = lista->sent->next;
@@ -357,7 +353,7 @@ void excluirusuario(Listausuario *lista) {
     free(aux);
     printf("Usuario excluido\n");
 }
-
+// menu de exclusao
 void exclusao(Listalivro *livros, Listausuario *usuarios) {
     int op;
     while (1) {
@@ -381,11 +377,11 @@ void exclusao(Listalivro *livros, Listausuario *usuarios) {
         }
     }
 }
-
+//emprestimo de livros
 void emprestimo(Listalivro *livros, Listausuario *usuarios) {
     int id;
     char email[MAX];
-    printf("ID do livro: ");
+    printf("ID do livro:\n");
     scanf("%d", &id);
     Livro *aux = buscarlivro(livros, id);
 
@@ -409,10 +405,10 @@ void emprestimo(Listalivro *livros, Listausuario *usuarios) {
 
     printf("Emprestimo realizado\n");
 }
-
+//devolucao de livros
 void devolucao(Listalivro *lista) {
     int id;
-    printf("ID do livro: ");
+    printf("ID do livro:\n");
     scanf("%d", &id);
     Livro *aux = buscarlivro(lista, id);
     if (aux == NULL) {
@@ -427,7 +423,7 @@ void devolucao(Listalivro *lista) {
     strcpy(aux->emailUsuario, "");
     printf("Devolucao realizada com sucesso\n");
 }
-
+//apagar livros
 void liberarlistalivro(Listalivro *lista) {
     Livro *aux = lista->sent->next;
     Livro *temp;
@@ -438,7 +434,7 @@ void liberarlistalivro(Listalivro *lista) {
     }
     free(lista->sent);
 }
-
+//apagar usuarios
 void liberarlistausuario(Listausuario *lista) {
     Usuario *aux = lista->sent->next;
     Usuario *temp;
@@ -501,4 +497,3 @@ int main() {
 
     return 0;
 }
-
